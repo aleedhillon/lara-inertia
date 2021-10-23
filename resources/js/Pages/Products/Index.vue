@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <Head title="Products" />
     <h2 class="display-2">Products</h2>
     <Alert v-if="message" :message="message"></Alert>
 
@@ -42,6 +43,7 @@
       </div>
     </div>
 
+    <div v-if="!products.length" class="container">No product yet.</div>
     <div class="container row">
       <div
         class="card col-md-3 mx-2 my-2"
@@ -49,7 +51,8 @@
         :key="product.id"
       >
         <div class="card-body">
-          <h5 class="card-title">{{ product.name }}</h5>
+          <h5 class="card-title">{{ product.id + " " + product.name }}</h5>
+          <p class="card-text">{{ getLocalDateTime(product.created_at) }}</p>
           <button
             @click="deleteProduct(product.id)"
             class="btn btn-danger btn-sm"
@@ -62,12 +65,17 @@
   </div>
 </template>
 <script>
-import { Link } from "@inertiajs/inertia-vue3";
+import Main from "./../../Layouts/Main.vue";
+import { Link, Head } from "@inertiajs/inertia-vue3";
 import Alert from "./../../Componets/Alert.vue";
+import Fixed from "./../../Componets/Fixed.vue";
 export default {
+  // layout: Main,
   components: {
     Link,
     Alert,
+    Main,
+    Head,
   },
   props: {
     products: Array,
@@ -82,8 +90,11 @@ export default {
     };
   },
   methods: {
+    getLocalDateTime(UTCDateTime) {
+      return new Date(UTCDateTime).toLocaleString();
+    },
     deleteProduct(productId) {
-      this.$inertia.delete("/products/" + productId);
+      this.$inertia.delete(route("products.destroy", [productId]));
     },
     openProductModal() {
       this.createProductModal.show();
@@ -91,7 +102,7 @@ export default {
     submit() {
       this.product.post("/products", {
         onFinish: () => {
-          this.product.name = '';
+          this.product.name = "";
           this.createProductModal.hide();
         },
       });

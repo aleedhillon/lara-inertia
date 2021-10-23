@@ -16,5 +16,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', WelcomeController::class);
+// Route::inertia('/', 'Welcome')->name('welcome');
 
 Route::resource('/products', ProductController::class);
