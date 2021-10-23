@@ -14,11 +14,8 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <Link class="nav-item nav-link active" href="/"
-          >Home <span class="sr-only">(current)</span></Link>
-        <Link class="nav-item nav-link" :href="route('products.index')">Products</Link>
-        <Link class="nav-item nav-link" href="#">Pricing</Link>
-        <Link class="nav-item nav-link disabled" href="#">Disabled</Link>
+        <Link class="nav-item nav-link" :class="{ 'active': $page.url === '/' }" href="/">Home</Link>
+        <Link class="nav-item nav-link" :class="{ 'active': $page.url === route('products.index') }" :href="route('products.index')">Products</Link>
       </div>
     </div>
   </nav>

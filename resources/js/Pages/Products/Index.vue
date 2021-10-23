@@ -29,6 +29,7 @@
                     type="text"
                     id="name"
                     v-model="product.name"
+                    autocomplete="off"
                   />
                 </div>
               </div>
@@ -53,12 +54,7 @@
         <div class="card-body">
           <h5 class="card-title">{{ product.id + " " + product.name }}</h5>
           <p class="card-text">{{ getLocalDateTime(product.created_at) }}</p>
-          <button
-            @click="deleteProduct(product.id)"
-            class="btn btn-danger btn-sm"
-          >
-            Delete
-          </button>
+          <Link preserve-scroll class="btn btn-danger btn-sm" as="button" method="delete" :href="route('products.destroy', [product.id])">Delete</Link>
         </div>
       </div>
     </div>
@@ -68,7 +64,6 @@
 import Main from "./../../Layouts/Main.vue";
 import { Link, Head } from "@inertiajs/inertia-vue3";
 import Alert from "./../../Componets/Alert.vue";
-import Fixed from "./../../Componets/Fixed.vue";
 export default {
   // layout: Main,
   components: {
